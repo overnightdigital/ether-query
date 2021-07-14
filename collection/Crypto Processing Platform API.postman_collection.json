@@ -1,0 +1,3280 @@
+{
+	"info": {
+		"_postman_id": "32192a39-f2d7-4457-b984-09167d54c012",
+		"name": "Crypto Processing Platform API",
+		"description": "This is a high-level implementation for https://api.cryptoprocessing.io\n\nCryptoProcessing is a platform for blockchain projects and businesses, that allows building blockchain applications in a short period and save time and money. It offers a standardized set of methods to work with acquirers, processing companies, liquidity providers, and different exchanges using given API for work with crypto and fiat currencies.\n\nFor more information about CryptoProcessing, visit https://cryptoprocessing.io or join us in https://t.me/CryptoProcessing\n\nCreated by the CryptoProcessing company.\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Payments",
+			"item": [
+				{
+					"name": "{{domain}}/api/v1/payments",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Authorization",
+								"value": "KEY",
+								"description": "Your Auth Key"
+							},
+							{
+								"key": "X-Email",
+								"value": "EMAIL",
+								"description": "Optional email of the user you want to process a payment \nfor."
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"email@user\",\n\t\"amount\": 0.1,\n\t\"currency\": \"eth\",\n\t\"address\": \"0x843...\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/v1/payments",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"payments"
+							]
+						},
+						"description": "\"email\": Optional Email address. If does not exist, X-Email header should be set.\n\n\"amount\": float, amount of crypto you want to buy\n\n\"currency\": eth or btc (lowercase)\n\n\"address\": Optional eth or btc address to receive crypto. If X-Email header set, the user's addresses is used."
+					},
+					"response": [
+						{
+							"name": "{{domain}}/api/v1/payments",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "KEY",
+										"description": "Your Auth Key"
+									},
+									{
+										"key": "X-Email",
+										"value": "EMAIL",
+										"description": "Optional email of the user you want to process a payment \nfor."
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\": \"email@user\",\n\t\"amount\": 0.1,\n\t\"currency\": \"eth\",\n\t\"address\": \"0x843...\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/api/v1/payments",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"payments"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n\t\"data\": {\n\t\t\"redirect_url\": \"https://{CustomerID}.cryptoprocessing.io/api/v1/payments/{OrderID}.html\"\n\t}\n}"
+						}
+					]
+				}
+			],
+			"description": "A payments endpoints for credit/debit cards acquiring"
+		},
+		{
+			"name": "CRUD with User model",
+			"item": [
+				{
+					"name": "Create user",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"{{user_name}}\",\n  \"email\": \"{{user_email}}\",\n  \"password\": \"{{user_password}}\",\n  \"password_confirmation\": \"{{user_password_confirmation}}\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/v1/users",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						},
+						"description": "Create user. Requires email, password, and password_confirmation params.\nUser is an *abstract* model for just an identification way for wallets.\nFields password and password_confirmation may be used if you want to use our wallet solution for your users (additionally may be requested via email wallet@oom.ag)."
+					},
+					"response": [
+						{
+							"name": "Create user (with errors)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"{{user_name}}\",\n  \"email\": \"{{user_email}}\",\n  \"password\": \"{{user_password}}\",\n  \"password_confirmation\": \"{{user_password_confirmation}}\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/api/v1/users/",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										""
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": 1,\n        \"message\": \"401 Unauthorized\"\n    }\n}"
+						},
+						{
+							"name": "Create user (without errors)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{invalid_authorization_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"{{user_name}}\",\n  \"email\": \"{{user_email}}\",\n  \"password\": \"{{user_password}}\",\n  \"password_confirmation\": \"{{user_password_confirmation}}\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/api/v1/users/",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n  \"data\": {\n    \"addresses\": {\n      \"btc\": \"{{btc_address}}\",\n      \"eth\": \"{{eth_address}}\",\n      \"abx\": \"{{abx_address}}\"\n    },\n    \"name\": \"{{user_name}}\",\n    \"email\": \"{{user_email}}\"\n  },\n  \"error\": {\n    \"status\": 0\n  }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update account information",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							},
+							{
+								"key": "X-Email",
+								"value": "{{email}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"{{user_email}}\",\n  \"current_password\": \"{{user_current_password}}\"\n}\n\n"
+						},
+						"url": {
+							"raw": "{{domain}}/api/v1/users/",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								""
+							]
+						},
+						"description": "Update user account information."
+					},
+					"response": [
+						{
+							"name": "Update account information (with errors)",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{user_email}}\",\n  \"current_password\": \"{{user_current_password}}\",\n  \"password\": \"{{user_password}}\",\n  \"password_confirmation\": \"{{user_password_confirmation}}\"\n}\n\n"
+								},
+								"url": {
+									"raw": "{{domain}}/api/v1/users/",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										""
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": 1,\n        \"message\": \"401 Unauthorized\"\n    }\n}"
+						},
+						{
+							"name": "Update account information (without errors)",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{invalid_authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"{{user_email}}\",\n  \"current_password\": \"{{user_current_password}}\",\n  \"password\": \"{{user_password}}\",\n  \"password_confirmation\": \"{{user_password_confirmation}}\"\n}\n\n"
+								},
+								"url": {
+									"raw": "{{domain}}/api/v1/users/",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n  \"data\": {\n    \"addresses\": {\n      \"btc\": \"{{btc_address}}\",\n      \"eth\": \"{{eth_address}}\",\n      \"abx\": \"{{abx_address}}\"\n    },\n    \"name\": \"{{user_name}}\",\n    \"email\": \"{{user_email}}\"\n  },\n  \"error\": {\n    \"status\": 0\n  }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Get user information",
+			"item": [
+				{
+					"name": "Get full user info",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							},
+							{
+								"key": "X-Email",
+								"value": "{{email}}"
+							}
+						],
+						"url": {
+							"raw": "http://{{domain}}/api/v1/users/info",
+							"protocol": "http",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"info"
+							]
+						},
+						"description": "Get inforamtion about the user."
+					},
+					"response": [
+						{
+							"name": "Get full user info (with errors)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "access-token",
+										"value": "{{access_token}}"
+									},
+									{
+										"key": "client",
+										"value": "{{client}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"url": {
+									"raw": "{{domain}}/api/v1/users/",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										""
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": 1,\n        \"message\": \"401 Unauthorized\"\n    }\n}"
+						},
+						{
+							"name": "Get full user info (without errors)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{invalid_authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"url": {
+									"raw": "{{domain}}/api/v1/users/info",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"info"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"addresses\": {\n            \"btc\": \"{{btc_address}}\",\n            \"eth\": \"{{eth_address}}\",\n            \"abx\": \"{{abx_address}}\"\n        },\n        \"name\": \"{{user_name}}\",\n        \"email\": \"{{user_email}}\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get user balances",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							},
+							{
+								"key": "X-Email",
+								"value": "{{email}}"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/api/v1/users/balances",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"balances"
+							]
+						},
+						"description": "Get input balances for user in ETH, BTC, ARX."
+					},
+					"response": [
+						{
+							"name": "Get user balances (with errors)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"url": {
+									"raw": "{{domain}}/api/v1/users/balances",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"balances"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": 1,\n        \"message\": \"401 Unauthorized\"\n    }\n}"
+						},
+						{
+							"name": "Get user balances (without errors)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{invalid_authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"url": {
+									"raw": "{{domain}}/api/v1/users/balances",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"balances"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"balances\": {\n            \"btc\": \"{{btc_balance}}\",\n            \"eth\": \"{{eth_balance}}\",\n            \"abx\": \"{{abx_balance}}\"\n        },\n        \"remaining_balance\": {\n            \"btc\": \"{{remaining_btc_balance}}\",\n            \"eth\": \"{{remaining_eth_balance}}\",\n            \"abx\": \"{{remaining_abx_balance}}\"\n        }\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Send crypto",
+			"item": [
+				{
+					"name": "Send ETH from user wallet",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							},
+							{
+								"key": "X-Email",
+								"value": "{{email}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": \"{{amount}}\",\n  \"address\": \"{{destination_address}}\",\n  \"gas_limit\": \"{{gas_limit}}\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/v1/wallets/eth",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"wallets",
+								"eth"
+							]
+						},
+						"description": "Send ETH from user wallet."
+					},
+					"response": [
+						{
+							"name": "Send ETH from user wallet (without errors)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": \"{{amount}}\",\n  \"address\": \"{{destination_address}}\",\n  \"gas_limit\": \"{{gas_limit}}\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/api/v1/wallets/eth",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"wallets",
+										"eth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"txid\": \"{{txid}}\"\n    }\n}"
+						},
+						{
+							"name": "Send ETH from user wallet (with errors)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{invalid_authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": \"{{amount}}\",\n  \"address\": \"{{destination_address}}\",\n  \"gas_limit\": \"{{gas_limit}}\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/api/v1/wallets/eth",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"wallets",
+										"eth"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": 1,\n        \"message\": \"401 Unauthorized\"\n    }\n}"
+						},
+						{
+							"name": "Send ETH from user wallet (Insufficient funds)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"disabled": false
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}",
+										"disabled": false
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}",
+										"disabled": false
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": \"{{amount}}\",\n  \"address\": \"{{destination_address}}\",\n  \"gas_limit\": \"{{gas_limit}}\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/api/v1/wallets/eth",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"wallets",
+										"eth"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Content-Length",
+									"value": "53",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "X-Request-Id",
+									"value": "762c0de8-3eb2-4a43-a08b-ff04a2bca3d6",
+									"name": "X-Request-Id",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-Runtime",
+									"value": "3.776592",
+									"name": "X-Runtime",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [],
+							"body": "{\"error\":{\"status\":3,\"message\":\"Insufficient funds\"}}"
+						}
+					]
+				},
+				{
+					"name": "Send BTC from user wallet",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							},
+							{
+								"key": "X-Email",
+								"value": "{{email}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": {{amount}},\n  \"address\": \"{{destination_address}}\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/v1/wallets/btc",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"wallets",
+								"btc"
+							]
+						},
+						"description": "Send BTC from user wallet."
+					},
+					"response": [
+						{
+							"name": "Send BTC from user wallet (with errors)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{invalid_authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": \"{{amount}}\",\n  \"address\": \"{{destination_address}}\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/api/v1/wallets/btc",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"wallets",
+										"btc"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": 1,\n        \"message\": \"401 Unauthorized\"\n    }\n}"
+						},
+						{
+							"name": "Send BTC from user wallet (without errors)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": \"{{amount}}\",\n  \"address\": \"{{destination_address}}\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/api/v1/wallets/btc",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"wallets",
+										"btc"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"txid\": \"{{txid}}\"\n    }\n}"
+						},
+						{
+							"name": "Send BTC from user wallet (Insufficient funds)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"disabled": false
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}",
+										"disabled": false
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}",
+										"disabled": false
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": \"{{amount}}\",\n  \"address\": \"{{destination_address}}\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/api/v1/wallets/btc",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"wallets",
+										"btc"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Content-Length",
+									"value": "52",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "X-Request-Id",
+									"value": "ccca8d3b-b411-4cb4-ad66-eb5f8b764b2a",
+									"name": "X-Request-Id",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-Runtime",
+									"value": "16.506608",
+									"name": "X-Runtime",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": 3,\n        \"message\": \"Insufficient funds\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Send ABX from user wallet",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							},
+							{
+								"key": "X-Email",
+								"value": "{{email}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": \"{{amount}}\",\n  \"address\": \"{{destination_address}}\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/v1/wallets/abx",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"wallets",
+								"abx"
+							]
+						},
+						"description": "Send ABX from user wallet."
+					},
+					"response": [
+						{
+							"name": "Send ABX from user wallet (with errors)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{invalid_authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": \"{{amount}}\",\n  \"address\": \"{{destination_address}}\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/api/v1/wallets/abx",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"wallets",
+										"abx"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": 1,\n        \"message\": \"401 Unauthorized\"\n    }\n}"
+						},
+						{
+							"name": "Send ABX from user wallet (without errors)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": \"{{amount}}\",\n  \"address\": \"{{destination_address}}\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/api/v1/wallets/btc",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"wallets",
+										"btc"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"txid\": \"{{txid}}\"\n    }\n}"
+						},
+						{
+							"name": "Send ABX from user wallet (Insufficient funds)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"disabled": false
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}",
+										"disabled": false
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}",
+										"disabled": false
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": \"{{amount}}\",\n  \"address\": \"{{destination_address}}\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/api/v1/wallets/abx",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"wallets",
+										"abx"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Content-Length",
+									"value": "53",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "X-Request-Id",
+									"value": "3331be98-b095-4404-8fc2-fd99c95cefb3",
+									"name": "X-Request-Id",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-Runtime",
+									"value": "1.870482",
+									"name": "X-Runtime",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [],
+							"body": "{\"error\":{\"status\":3,\"message\":\"Insufficient funds\"}}"
+						}
+					]
+				},
+				{
+					"name": "Send EOS from user wallet",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							},
+							{
+								"key": "X-Email",
+								"value": "{{email}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": \"{{amount}}\",\n  \"address\": \"{{destination_address}}\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/v1/wallets/eos",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"wallets",
+								"eos"
+							]
+						},
+						"description": "Send EOS from user wallet."
+					},
+					"response": [
+						{
+							"name": "Send EOS from user wallet (with errors)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{invalid_authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": \"{{amount}}\",\n  \"address\": \"{{destination_address}}\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/api/v1/wallets/eos",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"wallets",
+										"eos"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": 1,\n        \"message\": \"401 Unauthorized\"\n    }\n}"
+						},
+						{
+							"name": "Send EOS from user wallet (Insufficient funds)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"disabled": false
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}",
+										"disabled": false
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}",
+										"disabled": false
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"amount\": \"{{amount}}\",\n  \"address\": \"{{destination_address}}\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/api/v1/wallets/eos",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"wallets",
+										"eos"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Content-Length",
+									"value": "53",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "X-Request-Id",
+									"value": "3331be98-b095-4404-8fc2-fd99c95cefb3",
+									"name": "X-Request-Id",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-Runtime",
+									"value": "1.870482",
+									"name": "X-Runtime",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [],
+							"body": "{\"error\":{\"status\":3,\"message\":\"Insufficient funds\"}}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Webhooks",
+			"item": [
+				{
+					"name": "Changed ethereum balance",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							},
+							{
+								"key": "X-Email",
+								"value": "{{email}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"prev_balance\": {{prev_balance}},\n  \"new_balance\": {{new_balance}}\n}"
+						},
+						"url": {
+							"raw": "{{arbidex_domain}}/api/wallets/eth",
+							"host": [
+								"{{arbidex_domain}}"
+							],
+							"path": [
+								"api",
+								"wallets",
+								"eth"
+							]
+						},
+						"description": "ETH balance change notification."
+					},
+					"response": [
+						{
+							"name": "Changed ethereum balance (with errors)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{invalid_authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"prev_balance\": \"{{prev_balance}}\",\n  \"new_balance\": \"{{new_balance}}\"\n}"
+								},
+								"url": {
+									"raw": "{{arbidex_domain}}/api/wallets/eth",
+									"host": [
+										"{{arbidex_domain}}"
+									],
+									"path": [
+										"api",
+										"wallets",
+										"eth"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": 1,\n        \"message\": \"401 Unauthorized\"\n    }\n}"
+						},
+						{
+							"name": "Changed ethereum balance (without erros)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"prev_balance\": \"{{prev_balance}}\",\n  \"new_balance\": \"{{new_balance}}\"\n}"
+								},
+								"url": {
+									"raw": "{{arbidex_domain}}/api/wallets/eth",
+									"host": [
+										"{{arbidex_domain}}"
+									],
+									"path": [
+										"api",
+										"wallets",
+										"eth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n  \"error\": {\n    \"status\": 0\n  }\n}"
+						}
+					]
+				},
+				{
+					"name": "Changed bitcoin balance",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							},
+							{
+								"key": "X-Email",
+								"value": "{{email}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"prev_balance\": {{prev_balance}},\n  \"new_balance\": {{new_balance}}\n}"
+						},
+						"url": {
+							"raw": "{{arbidex_domain}}/api/wallets/btc",
+							"host": [
+								"{{arbidex_domain}}"
+							],
+							"path": [
+								"api",
+								"wallets",
+								"btc"
+							]
+						},
+						"description": "BTC balance change notification."
+					},
+					"response": [
+						{
+							"name": "Changed bitcoin balance (with errors)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{invalid_authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"prev_balance\": \"{{prev_balance}}\",\n  \"new_balance\": \"{{new_balance}}\"\n}"
+								},
+								"url": {
+									"raw": "{{arbidex_domain}}/api/wallets/btc",
+									"host": [
+										"{{arbidex_domain}}"
+									],
+									"path": [
+										"api",
+										"wallets",
+										"btc"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": 1,\n        \"message\": \"401 Unauthorized\"\n    }\n}"
+						},
+						{
+							"name": "Changed bitcoin balance (without errors)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"prev_balance\": \"{{prev_balance}}\",\n  \"new_balance\": \"{{new_balance}}\"\n}"
+								},
+								"url": {
+									"raw": "{{abx_domain}}/api/v1/users/wallets/btc",
+									"host": [
+										"{{abx_domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"wallets",
+										"btc"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Changed bitcoin balance - test",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							},
+							{
+								"key": "X-Email",
+								"value": "{{email}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"prev_balance\": {{prev_balance}},\n  \"new_balance\": {{new_balance}}\n}"
+						},
+						"url": {
+							"raw": "{{arbidex_domain}}/api/wallets/btc",
+							"host": [
+								"{{arbidex_domain}}"
+							],
+							"path": [
+								"api",
+								"wallets",
+								"btc"
+							]
+						},
+						"description": "BTC balance change notification."
+					},
+					"response": [
+						{
+							"name": "Changed bitcoin balance (with errors)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{invalid_authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"prev_balance\": \"{{prev_balance}}\",\n  \"new_balance\": \"{{new_balance}}\"\n}"
+								},
+								"url": {
+									"raw": "{{arbidex_domain}}/api/wallets/btc",
+									"host": [
+										"{{arbidex_domain}}"
+									],
+									"path": [
+										"api",
+										"wallets",
+										"btc"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": 1,\n        \"message\": \"401 Unauthorized\"\n    }\n}"
+						},
+						{
+							"name": "Changed bitcoin balance (without errors)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"prev_balance\": \"{{prev_balance}}\",\n  \"new_balance\": \"{{new_balance}}\"\n}"
+								},
+								"url": {
+									"raw": "{{abx_domain}}/api/v1/users/wallets/btc",
+									"host": [
+										"{{abx_domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"wallets",
+										"btc"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Changed abx balance",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							},
+							{
+								"key": "X-Email",
+								"value": "{{email}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"prev_balance\": {{prev_balance}},\n  \"new_balance\": {{new_balance}}\n}"
+						},
+						"url": {
+							"raw": "{{arbidex_domain}}/api/wallets/abx",
+							"host": [
+								"{{arbidex_domain}}"
+							],
+							"path": [
+								"api",
+								"wallets",
+								"abx"
+							]
+						},
+						"description": "ABX balance change notification."
+					},
+					"response": [
+						{
+							"name": "Changed abx balance (without errors)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"prev_balance\": \"{{prev_balance}}\",\n  \"new_balance\": \"{{new_balance}}\"\n}"
+								},
+								"url": {
+									"raw": "{{arbidex_domain}}/api/wallets/abx",
+									"host": [
+										"{{arbidex_domain}}"
+									],
+									"path": [
+										"api",
+										"wallets",
+										"abx"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n  \"error\": {\n    \"status\": 0\n  }\n}"
+						},
+						{
+							"name": "Changed abx balance (with errors)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{invalid_authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"prev_balance\": \"{{prev_balance}}\",\n  \"new_balance\": \"{{new_balance}}\"\n}"
+								},
+								"url": {
+									"raw": "{{abx_domain}}/api/v1/users/wallets/abx",
+									"host": [
+										"{{abx_domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"wallets",
+										"abx"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": 1,\n        \"message\": \"401 Unauthorized\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Transactions",
+			"item": [
+				{
+					"name": "Get Ethereum transactions ",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							},
+							{
+								"key": "X-Email",
+								"value": "{{email}}"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/api/v1/transactions/eth ",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"transactions",
+								"eth "
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Ethereum transactions (without errors)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"url": {
+									"raw": "{{domain}}/api/v1/transactions/eth ",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"transactions",
+										"eth "
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "max-age=0, private, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "188",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "etag",
+									"value": "W/\"c8836c8b718cb63d751ebffee7d9c9b4\"",
+									"name": "etag",
+									"description": ""
+								},
+								{
+									"key": "x-request-id",
+									"value": "d6662129-6c23-4ddb-a5d2-35e1946db6e1",
+									"name": "x-request-id",
+									"description": ""
+								},
+								{
+									"key": "x-runtime",
+									"value": "0.009163",
+									"name": "x-runtime",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"in\": [\n            {\n                \"amount\": \"0.01\",\n                \"txid\": \"0x61390c478802724cb4bae7ed9a4b8c9859c0eba65c5a12508a24e85314e27414\",\n                \"from\": [\n                    \"0x662c90ce54b046b2ffbdc1634b8753208f409d2f\"\n                ],\n                \"to\": [\n                    \"0xb50a8c0df5b9794f1ef123944ac056a480fbdc14\"\n                ],\n                \"status\": \"confirmed\",\n                \"created_at\": \"2017-12-20T23:15:23.000Z\"\n            }\n        ],\n        \"out\": [\n            {\n                \"amount\": \"0.005\",\n                \"txid\": \"0x90c10f12e0300faa800c83cf6d3483e1b64f4af4df7b0f7b26832f200ead93d1\",\n                \"from\": [\n                    \"0x662c90ce54b046b2ffbdc1634b8753208f409d2f\"\n                ],\n                \"to\": [\"0x662c90ce54b046b2ffbdc1634b8753208f409d2f\"],\n                \"status\": \"confirmed\",\n                \"created_at\": \"2017-12-21T13:54:18.873Z\"\n            },\n            {\n                \"amount\": \"0.005\",\n                \"txid\": \"0x23403602843d78ec1b0db983f02ae256c20def21e32a8e69f9238144e25e124b\",\n                \"from\": [\n                    \"0x662c90ce54b046b2ffbdc1634b8753208f409d2f\"\n                ],\n                \"to\": [\"0x662c90ce54b046b2ffbdc1634b8753208f409d2f\"],\n                \"status\": \"confirmed\",\n                \"created_at\": \"2017-12-21T13:57:10.970Z\"\n            }\n        ]\n    }\n}"
+						},
+						{
+							"name": "Get Ethereum transactions (with errors)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"warning": ""
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{invalid_authorization_token}}",
+										"warning": ""
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}",
+										"warning": ""
+									}
+								],
+								"url": {
+									"raw": "{{domain}}/api/v1/transactions/eth ",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"transactions",
+										"eth "
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "max-age=0, private, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "395",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "etag",
+									"value": "W/\"7cf6ed64e611a964d54a40c466b0ebab\"",
+									"name": "etag",
+									"description": ""
+								},
+								{
+									"key": "x-request-id",
+									"value": "891a2300-ad77-401a-8d91-c73b81167f6c",
+									"name": "x-request-id",
+									"description": ""
+								},
+								{
+									"key": "x-runtime",
+									"value": "0.054852",
+									"name": "x-runtime",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": 1,\n        \"message\": \"401 Unauthorized\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Bitcoin transactions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							},
+							{
+								"key": "X-Email",
+								"value": "{{email}}"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/api/v1/transactions/btc ",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"transactions",
+								"btc "
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Bitcoin transactions (without errors)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"url": {
+									"raw": "{{domain}}/api/v1/transactions/eth ",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"transactions",
+										"eth "
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "max-age=0, private, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "188",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "etag",
+									"value": "W/\"c8836c8b718cb63d751ebffee7d9c9b4\"",
+									"name": "etag",
+									"description": ""
+								},
+								{
+									"key": "x-request-id",
+									"value": "d6662129-6c23-4ddb-a5d2-35e1946db6e1",
+									"name": "x-request-id",
+									"description": ""
+								},
+								{
+									"key": "x-runtime",
+									"value": "0.009163",
+									"name": "x-runtime",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"in\": [\n            {\n                \"amount\": \"0.1\",\n                \"txid\": \"341e2ac613e29162c08c0551ca5ced53684b2981eab1a85bc84632c8c4656598\",\n                \"from\": [\n                    \"n2sDdbwA4Yo8Fr9k8ZvbMtuhv1X86W3k3F\",\n                    \"mzpzzMj9NAeTjGWMNQt4YTiQ1ot9VBCHYw\"\n                ],\n                \"to\": [\"18AzNPmc2BLje9L178yC8H5j624EvgyeWN\"],\n                \"status\": \"confirmed\",\n                \"created_at\": \"2017-12-23T16:53:28.000Z\"\n            },\n            {\n                \"amount\": \"0.01\",\n                \"txid\": \"0e038af4aaeefa54de1b073f1fe47890dc7d3dc6b6aa337d506f76ef87392732\",\n                \"from\": [\n                    \"n2sDdbwA4Yo8Fr9k8ZvbMtuhv1X86W3k3F\",\n                    \"mzpzzMj9NAeTjGWMNQt4YTiQ1ot9VBCHYw\"\n                ],\n                \"to\": [\"18AzNPmc2BLje9L178yC8H5j624EvgyeWN\"],\n                \"status\": \"confirmed\",\n                \"created_at\": \"2017-12-23T15:37:56.000Z\"\n            },\n            {\n                \"amount\": \"0.01\",\n                \"txid\": \"b38a96894b52213d5cb8bb25d736494ce23851f0c8a11ac010552e13c1ce21f5\",\n                \"from\": [\n                    \"n2sDdbwA4Yo8Fr9k8ZvbMtuhv1X86W3k3F\",\n                    \"mzpzzMj9NAeTjGWMNQt4YTiQ1ot9VBCHYw\"\n                ],\n                \"to\": [\"18AzNPmc2BLje9L178yC8H5j624EvgyeWN\"],\n                \"status\": \"confirmed\",\n                \"created_at\": \"2017-12-22T10:21:47.000Z\"\n            }\n        ],\n        \"out\": [\n            {\n                \"amount\": \"0.00426\",\n                \"txid\": \"6d4008ed83781c5bed9504490c1820ba07905c894495ae0c0cdffa782b5df97b\",\n                \"from\": [\n                    \"n2sDdbwA4Yo8Fr9k8ZvbMtuhv1X86W3k3F\",\n                    \"mzpzzMj9NAeTjGWMNQt4YTiQ1ot9VBCHYw\"\n                ],\n               \"to\": [\"18AzNPmc2BLje9L178yC8H5j624EvgyeWN\"],\n                \"status\": \"confirmed\",\n                \"created_at\": \"2017-12-23T15:33:20.728Z\"\n            },\n            {\n                \"amount\": \"0.00726\",\n                \"txid\": \"7e90c44dfa2481bf5913ca451aa715e2d4d36d4e73eeee03790aef21010000d6\",\n                \"from\": [\n                    \"n2sDdbwA4Yo8Fr9k8ZvbMtuhv1X86W3k3F\",\n                    \"mzpzzMj9NAeTjGWMNQt4YTiQ1ot9VBCHYw\"\n                ],\n                \"to\": [\"18AzNPmc2BLje9L178yC8H5j624EvgyeWN\"],\n                \"status\": \"confirmed\",\n                \"created_at\": \"2017-12-23T16:38:37.310Z\"\n            }\n        ]\n    }\n}"
+						},
+						{
+							"name": "Get Bitcoin transactions (with errors)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"url": {
+									"raw": "{{domain}}/api/v1/transactions/btc ",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"transactions",
+										"btc "
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "max-age=0, private, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "connection",
+									"value": "keep-alive",
+									"name": "connection",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "900",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "date",
+									"value": "Wed, 17 Jan 2018 17:38:58 GMT",
+									"name": "date",
+									"description": ""
+								},
+								{
+									"key": "etag",
+									"value": "W/\"12902b87a2512b645a48d2014584692c\"",
+									"name": "etag",
+									"description": ""
+								},
+								{
+									"key": "server",
+									"value": "Cowboy",
+									"name": "server",
+									"description": ""
+								},
+								{
+									"key": "strict-transport-security",
+									"value": "max-age=15552000; includeSubDomains",
+									"name": "strict-transport-security",
+									"description": ""
+								},
+								{
+									"key": "via",
+									"value": "1.1 vegur",
+									"name": "via",
+									"description": ""
+								},
+								{
+									"key": "x-request-id",
+									"value": "5914c78b-99e3-42ca-9a6d-a219ed9daef2",
+									"name": "x-request-id",
+									"description": ""
+								},
+								{
+									"key": "x-runtime",
+									"value": "0.011239",
+									"name": "x-runtime",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": 1,\n        \"message\": \"401 Unauthorized\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get ABX transactions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							},
+							{
+								"key": "X-Email",
+								"value": "{{email}}"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/api/v1/transactions/abx ",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"transactions",
+								"abx "
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get ABX transactions (without errors)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"url": {
+									"raw": "{{domain}}/api/v1/transactions/eth ",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"transactions",
+										"eth "
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "max-age=0, private, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "188",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "etag",
+									"value": "W/\"c8836c8b718cb63d751ebffee7d9c9b4\"",
+									"name": "etag",
+									"description": ""
+								},
+								{
+									"key": "x-request-id",
+									"value": "d6662129-6c23-4ddb-a5d2-35e1946db6e1",
+									"name": "x-request-id",
+									"description": ""
+								},
+								{
+									"key": "x-runtime",
+									"value": "0.009163",
+									"name": "x-runtime",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"in\": [\n            {\n                \"amount\": \"6.09286488\",\n                \"txid\": \"0x1e2093915ce9e8aad79b008c1121b25e052ac7976cba5657cc9882714e6d80b0\",\n                \"to\": \"0x00abaf6e8b9e7b82cd3ac3d6d9617c65eb655926\",\n                \"status\": \"confirmed\",\n                \"execution\": null,\n                \"created_at\": \"2018-03-20T10:46:09.000Z\"\n            },\n            {\n                \"amount\": \"46.09286488\",\n                \"txid\": \"0x2ebf95c2d49d3c18ada2d1fd607414d71ad2c8871aeeba19226da6abc232da69\",\n                \"to\": \"0x00abaf6e8b9e7b82cd3ac3d6d9617c65eb655926\",\n                \"status\": \"confirmed\",\n                \"execution\": null,\n                \"created_at\": \"2018-03-20T10:48:24.000Z\"\n            }\n        ],\n        \"out\": [\n            {\n                \"amount\": \"5.0\",\n                \"txid\": \"0xe28735c797e5e91a7f45f6214b6d4408e154b6a6f0c3ff5373eeacd480b54cb6\",\n                \"to\": \"0xd08c33b238983441406e0563559658aba4557269\",\n                \"status\": \"confirmed\",\n                \"execution\": \"confirmed\",\n                \"created_at\": \"2018-03-20T11:12:26.141Z\"\n            },\n            {\n                \"amount\": \"5.0\",\n                \"txid\": \"0xcfc5811e9e811e0bbff105ddd2bebf65ddf3825909ca1c3b66882373283e6083\",\n                \"to\": \"0xd08c33b238983441406e0563559658aba4557269\",\n                \"status\": \"confirmed\",\n                \"execution\": \"confirmed\",\n                \"created_at\": \"2018-03-20T11:11:25.178Z\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get EOS transactions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							},
+							{
+								"key": "X-Email",
+								"value": "{{email}}"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/api/v1/transactions/eos ",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"transactions",
+								"eos "
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get EOS transactions (without errors)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}"
+									},
+									{
+										"key": "X-Email",
+										"value": "{{email}}"
+									}
+								],
+								"url": {
+									"raw": "{{domain}}/api/v1/transactions/eos ",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"transactions",
+										"eos "
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "max-age=0, private, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "188",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "etag",
+									"value": "W/\"c8836c8b718cb63d751ebffee7d9c9b4\"",
+									"name": "etag",
+									"description": ""
+								},
+								{
+									"key": "x-request-id",
+									"value": "d6662129-6c23-4ddb-a5d2-35e1946db6e1",
+									"name": "x-request-id",
+									"description": ""
+								},
+								{
+									"key": "x-runtime",
+									"value": "0.009163",
+									"name": "x-runtime",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"in\": [\n            {\n                \"amount\": \"6.09286488\",\n                \"txid\": \"0x1e2093915ce9e8aad79b008c1121b25e052ac7976cba5657cc9882714e6d80b0\",\n                \"to\": \"0x00abaf6e8b9e7b82cd3ac3d6d9617c65eb655926\",\n                \"status\": \"confirmed\",\n                \"execution\": null,\n                \"created_at\": \"2018-03-20T10:46:09.000Z\"\n            },\n            {\n                \"amount\": \"46.09286488\",\n                \"txid\": \"0x2ebf95c2d49d3c18ada2d1fd607414d71ad2c8871aeeba19226da6abc232da69\",\n                \"to\": \"0x00abaf6e8b9e7b82cd3ac3d6d9617c65eb655926\",\n                \"status\": \"confirmed\",\n                \"execution\": null,\n                \"created_at\": \"2018-03-20T10:48:24.000Z\"\n            }\n        ],\n        \"out\": [\n            {\n                \"amount\": \"5.0\",\n                \"txid\": \"0xe28735c797e5e91a7f45f6214b6d4408e154b6a6f0c3ff5373eeacd480b54cb6\",\n                \"to\": \"0xd08c33b238983441406e0563559658aba4557269\",\n                \"status\": \"confirmed\",\n                \"execution\": \"confirmed\",\n                \"created_at\": \"2018-03-20T11:12:26.141Z\"\n            },\n            {\n                \"amount\": \"5.0\",\n                \"txid\": \"0xcfc5811e9e811e0bbff105ddd2bebf65ddf3825909ca1c3b66882373283e6083\",\n                \"to\": \"0xd08c33b238983441406e0563559658aba4557269\",\n                \"status\": \"confirmed\",\n                \"execution\": \"confirmed\",\n                \"created_at\": \"2018-03-20T11:11:25.178Z\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Common",
+			"item": [
+				{
+					"name": "Get Fee Value",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/api/v1/common/fee",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"common",
+								"fee"
+							]
+						},
+						"description": "Get actual outgoing tx fee costs for all the currencies"
+					},
+					"response": [
+						{
+							"name": "Get Fee Value",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Authorization",
+										"value": "xxxxxx"
+									}
+								],
+								"url": {
+									"raw": "{{domain}}/api/v1/common/fee",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"common",
+										"fee"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n  \"data\":\n    {\n      \"btc\": 0.001,\n      \"eth\": 0.001\n    }\n}"
+						},
+						{
+							"name": "Get Fee Value (with errors)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Authorization",
+										"value": "{{invalid_authorization_token}}",
+										"warning": ""
+									}
+								],
+								"url": {
+									"raw": "{{domain}}/api/v1/common/fee",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"common",
+										"fee"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": 1,\n        \"message\": \"401 Unauthorized\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get withdrawing ETH",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/api/v1/common/withdrawing_eth",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"common",
+								"withdrawing_eth"
+							]
+						},
+						"description": "Get actual outgoing tx fee costs for all the currencies"
+					},
+					"response": [
+						{
+							"name": "Get Fee Value (with errors)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Authorization",
+										"value": "{{invalid_authorization_token}}",
+										"warning": ""
+									}
+								],
+								"url": {
+									"raw": "{{domain}}/api/v1/common/fee",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"common",
+										"fee"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": 1,\n        \"message\": \"401 Unauthorized\"\n    }\n}"
+						},
+						{
+							"name": "Get Fee Value",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Authorization",
+										"value": "xxxxxx"
+									}
+								],
+								"url": {
+									"raw": "{{domain}}/api/v1/common/withdrawing_eth",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"common",
+										"withdrawing_eth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"eth\": 0.00206\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get stat",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/api/v1/common/stat",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"common",
+								"stat"
+							]
+						},
+						"description": "Get actual outgoing tx fee costs for all the currencies"
+					},
+					"response": [
+						{
+							"name": "Get Fee Value",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Authorization",
+										"value": "xxxxxx"
+									}
+								],
+								"url": {
+									"raw": "{{domain}}/api/v1/common/fee",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"common",
+										"fee"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n  \"data\":\n    {\n      \"btc\": 0.001,\n      \"eth\": 0.001\n    }\n}"
+						},
+						{
+							"name": "Get Fee Value (with errors)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Authorization",
+										"value": "{{invalid_authorization_token}}",
+										"warning": ""
+									}
+								],
+								"url": {
+									"raw": "{{domain}}/api/v1/common/fee",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"common",
+										"fee"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": 1,\n        \"message\": \"401 Unauthorized\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get contract price in ETH",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}/api/v1/common/contract_eth_price",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"common",
+								"contract_eth_price"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get contract price in ETH",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{domain}}/api/v1/common/contract_eth_price",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"common",
+										"contract_eth_price"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "max-age=0, private, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "35",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "etag",
+									"value": "W/\"f51ac902dd2e61b3d6634ae69500aa49\"",
+									"name": "etag",
+									"description": ""
+								},
+								{
+									"key": "x-request-id",
+									"value": "14d570d0-37e1-42c7-a1f3-0a34400f1f6b",
+									"name": "x-request-id",
+									"description": ""
+								},
+								{
+									"key": "x-runtime",
+									"value": "0.271103",
+									"name": "x-runtime",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "{\"tokenPrice\":0.001025451711478906}"
+						},
+						{
+							"name": "Get contract price in ETH (with errors)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Authorization",
+										"value": "{{invalid_authorization_token}}",
+										"warning": ""
+									}
+								],
+								"url": {
+									"raw": "{{domain}}/api/v1/common/contract_eth_price",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"common",
+										"contract_eth_price"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "max-age=0, private, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "35",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "etag",
+									"value": "W/\"f51ac902dd2e61b3d6634ae69500aa49\"",
+									"name": "etag",
+									"description": ""
+								},
+								{
+									"key": "x-request-id",
+									"value": "14d570d0-37e1-42c7-a1f3-0a34400f1f6b",
+									"name": "x-request-id",
+									"description": ""
+								},
+								{
+									"key": "x-runtime",
+									"value": "0.271103",
+									"name": "x-runtime",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"error\": {\n    \"status\": 1,\n    \"message\": \"401 Unauthorized\"\n  }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get total usd input",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{domain}}/api/v1/common/total_usd_input",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"common",
+								"total_usd_input"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get total usd input (without errors)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}",
+										"warning": ""
+									}
+								],
+								"url": {
+									"raw": "{{domain}}/api/v1/common/total_usd_input",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"common",
+										"total_usd_input"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "max-age=0, private, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "25",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "etag",
+									"value": "W/\"c9f95ac607beb6edc09af9b72f4961ce\"",
+									"name": "etag",
+									"description": ""
+								},
+								{
+									"key": "x-request-id",
+									"value": "57c9c3ed-a77a-42b9-8921-f1d98d6423b8",
+									"name": "x-request-id",
+									"description": ""
+								},
+								{
+									"key": "x-runtime",
+									"value": "0.005191",
+									"name": "x-runtime",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "{\"data\":{\"usd\":6812.022}}"
+						},
+						{
+							"name": "Get total usd input (with errors)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{domain}}/api/v1/common/total_usd_input",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"common",
+										"total_usd_input"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "max-age=0, private, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "25",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "etag",
+									"value": "W/\"c9f95ac607beb6edc09af9b72f4961ce\"",
+									"name": "etag",
+									"description": ""
+								},
+								{
+									"key": "x-request-id",
+									"value": "57c9c3ed-a77a-42b9-8921-f1d98d6423b8",
+									"name": "x-request-id",
+									"description": ""
+								},
+								{
+									"key": "x-runtime",
+									"value": "0.005191",
+									"name": "x-runtime",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"status\": 1,\n        \"message\": \"401 Unauthorized\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Verification",
+			"item": [
+				{
+					"name": "Verification of the ETH wallet address",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"address\": \"{{address}}\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/v1/verification/eth",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"verification",
+								"eth"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Verification of the ETH wallet address",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}",
+										"disabled": false
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"disabled": false
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"address\": \"0xCb465E880921FB615AF144eE00f16ba2a56E9415\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/api/v1/verification/eth",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"verification",
+										"eth"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "max-age=0, private, must-revalidate",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Content-Length",
+									"value": "24",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"74dded3a6d244953f63fe17a47100ca1\"",
+									"name": "ETag",
+									"description": "An identifier for a specific version of a resource, often a message digest"
+								},
+								{
+									"key": "X-Request-Id",
+									"value": "28c2a21d-2be1-4f10-b848-175bc1ca3160",
+									"name": "X-Request-Id",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-Runtime",
+									"value": "0.013945",
+									"name": "X-Runtime",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [],
+							"body": "{\"data\":{\"status\":true}}"
+						}
+					]
+				},
+				{
+					"name": "Verification of the BTC wallet address",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Authorization",
+								"value": "{{authorization_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"address\": \"{{address}}\"\n}"
+						},
+						"url": {
+							"raw": "{{domain}}/api/v1/verification/btc",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"verification",
+								"btc"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Verification of the BTC wallet address",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Authorization",
+										"value": "{{authorization_token}}",
+										"disabled": false
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"disabled": false
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"address\": \"1HjNQ7fcXAzFgqDPWnDycL9TiTZhN7Hxck\"\n}"
+								},
+								"url": {
+									"raw": "{{domain}}/api/v1/verification/btc",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"verification",
+										"btc"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "max-age=0, private, must-revalidate",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Content-Length",
+									"value": "24",
+									"name": "Content-Length",
+									"description": "The length of the response body in octets (8-bit bytes)"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"74dded3a6d244953f63fe17a47100ca1\"",
+									"name": "ETag",
+									"description": "An identifier for a specific version of a resource, often a message digest"
+								},
+								{
+									"key": "X-Request-Id",
+									"value": "96f91057-825e-4e37-bd65-988b45760fba",
+									"name": "X-Request-Id",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-Runtime",
+									"value": "0.010024",
+									"name": "X-Runtime",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [],
+							"body": "{\"data\":{\"status\":true}}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
